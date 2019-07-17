@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+
+option java_multiple_files = true;
+option java_package = "com.itok01.grpcgatewaychat";
+option java_outer_classname = "GrpcGatewayChatProto";
+
+package grpcgatewaychat;
+
+service Chat {
+  rpc GetChat (Null) returns (stream Message) {
+    option (google.api.http) = {
+      get: "/message"
+    };
+  }
+
+  rpc PostChat (Message) returns (MessageOk) {
+    option (google.api.http) = {
+      post: "/message"
+      body: "*"
+    };
+  }
+}
+
+message Null {}
+
+message Message {
+  string name = 1;
+  string text = 2;
+}
+
+message MessageOk {
+  bool ok = 1;
+}
